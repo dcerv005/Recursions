@@ -1,0 +1,33 @@
+import timeit
+sorted_list=[]
+def task_hierarchy(n):
+    tasks= [
+    {"id": 1, "name": "Task 1", "subtasks":[], "priority": 1},
+    {"id": 2, "name": "Task 2", "subtasks":[], "priority": 3},
+    {"id": 3, "name": "Task 3", "subtasks":[], "priority": 2}
+    ]
+    
+    while n < len(tasks):
+        
+        for i in range(len(tasks)):
+        
+            if tasks[i]["priority"]==n+1:
+                sorted_list.append(tasks[i]["name"])
+                print(sorted_list, tasks[i]["priority"])
+            
+        n+=1    
+               
+        
+    return sorted_list
+        
+    
+    
+def schedule_tasks(tasks):
+    print("Tasks in order of priority:")
+    for task in tasks:
+        print(task)
+    
+# schedule_tasks(task_hierarchy(0))    
+time= timeit.timeit(lambda: schedule_tasks(task_hierarchy(0)), number=1)    
+
+print(time)
