@@ -1,33 +1,56 @@
 import timeit
-sorted_list=[]
-def task_hierarchy(n):
-    tasks= [
+tasks= [
     {"id": 1, "name": "Task 1", "subtasks":[], "priority": 1},
-    {"id": 2, "name": "Task 2", "subtasks":[], "priority": 3},
+    {"id": 2, "name": "Task 2", "subtasks":["Task 2.1", "Task 2.2"], "priority": 3},
     {"id": 3, "name": "Task 3", "subtasks":[], "priority": 2}
-    ]
-    
-    while n < len(tasks):
+]
+def task_hierarchy(arr):
+  
+    if len(arr) > 1:
+        mid = len(arr)//2
+        left_half= arr[:mid]
+        right_half= arr[mid:]
+
+
+        task_hierarchy(left_half)
+        task_hierarchy(right_half)
+
+        i=j=k=0
+
+
+        while i < len(left_half) and j < len(right_half):
+            if left_half[i]["priority"] < right_half[j]["priority"]:
+                arr[k] = left_half[i]
+                i +=1
+            else: 
+                arr[k] = right_half[i]
+                j += 1
+            k += 1
         
-        for i in range(len(tasks)):
+        while i < len(left_half):
+            arr[k] = left_half[i]
+            i += 1
+            j += 1
         
-            if tasks[i]["priority"]==n+1:
-                sorted_list.append(tasks[i]["name"])
-                print(sorted_list, tasks[i]["priority"])
-            
-        n+=1    
+        while j < len(right_half):
+            arr[k] = right_half[j]
+            j += 1
+            k += 1
+
+
+        return arr
                
         
-    return sorted_list
+    
         
     
     
 def schedule_tasks(tasks):
     print("Tasks in order of priority:")
     for task in tasks:
-        print(task)
+        print(task["name"])
     
-# schedule_tasks(task_hierarchy(0))    
-time= timeit.timeit(lambda: schedule_tasks(task_hierarchy(0)), number=1)    
+ 
+time= timeit.timeit(lambda: schedule_tasks(task_hierarchy(tasks)), number=1)    #$O(n log n)$  space complexity O(n)
 
 print(time)
